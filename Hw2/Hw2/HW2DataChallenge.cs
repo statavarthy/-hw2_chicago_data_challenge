@@ -16,7 +16,7 @@
  * Maintenance History:
  * --------------------
  * ver 1.5 : 14 Jun 2015
- * - Fixed the logic for correlating  grcoery stores with food inspections
+ * - Fixed the logic for correlating grocery stores with food inspections
  * 
  * ver 1.4 : 14 Jun 2015
  * - Added maintaineance history, Summary and comments 
@@ -85,7 +85,7 @@ namespace Hw2
             FoodInspection[] foodInspectionData = new FoodInspection[40000];
             FinalAnalysis[] finalAnalysis = new FinalAnalysis[20000];
             BuildingInspection[] buildingData = new BuildingInspection[200000];
-            TempRecordMatch[] record_match = new TempRecordMatch[10];
+            TempRecordMatch[] record_match = new TempRecordMatch[1000];
 
             int i = 0;
             int groceryStoreCnt = 0;
@@ -95,7 +95,7 @@ namespace Hw2
             // boolean to identify the data folder whether test or actual
             // testMode = true --> take the data from testData folder
             // testMode = false --> take the data from actualData folder
-            bool testMode = true;
+            bool testMode = false;
 
             // specify the folder from which data is to be taken
             if (testMode)
@@ -116,9 +116,7 @@ namespace Hw2
                 var line = reader.ReadLine();
                 var values = line.Split(',');
                 groceryData[i].storeName = values[0];
-                groceryData[i].licenseID = values[1];
-                if (testMode)
-                   // Console.WriteLine("\n {0} {1} ", groceryData[i].storeName, groceryData[i].licenseID);
+                groceryData[i].licenseID = values[1];                
                 i++;
             }
 
@@ -127,7 +125,7 @@ namespace Hw2
             long num = 0;
 
             // STEP - 2 : Parse the Food Inspections data
-            var reader1 = new StreamReader(File.OpenRead(@filePath + "Food_Inspections_2014.csv"));
+            var reader1 = new StreamReader(File.OpenRead(@filePath + "Food_Inspections_2013.csv"));
             var line0_new = reader1.ReadLine();           
 
             while (!reader1.EndOfStream)
@@ -150,9 +148,7 @@ namespace Hw2
                     {
                         foodInspectionData[j].storeLicenseID = values[3];
                         foodInspectionData[j].foodInspectionStatus = values[12];
-                        foodInspectionData[j].inspectionDate = values[10];
-                        if (testMode)
-                           // Console.WriteLine("\n {0}  {1} {2} ", foodInspectionData[j].storeLicenseID, foodInspectionData[j].foodInspectionStatus, foodInspectionData[j].inspectionDate);
+                        foodInspectionData[j].inspectionDate = values[10];                       
                         j++;
                     }
 
@@ -175,11 +171,7 @@ namespace Hw2
                 var line = reader3.ReadLine();
                 var values = line.Split(new string[] { "#@" }, StringSplitOptions.None);
                 buildingData[x].buildingID = values[0];
-                buildingData[x].buildingAddress = values[16];
-                
-                if (testMode)
-                    //Console.WriteLine("\n {0}  {1} ", buildingData[x].buildingID, buildingData[x].buildingAddress);
-
+                buildingData[x].buildingAddress = values[16];                               
                 x++;
             }
             bldg_num = x;
@@ -201,8 +193,9 @@ namespace Hw2
                         record_match[c].licenseID = groceryData[k].licenseID;
                         record_match[c].date = Convert.ToDateTime(foodInspectionData[m].inspectionDate);
                         record_match[c].status = foodInspectionData[m].foodInspectionStatus;
+                        c++;
                     }
-                    c++;
+                    
                 }
 
                 // populating the grocery stores that are not matched (not been inspected)
@@ -238,15 +231,14 @@ namespace Hw2
                                 n++;
                             }
                         }
+                    }
 
-                        /*
-                        for (int u = 0; u < record_match.Length; u++)
-                        {
-                            record_match[u].date = DateTime.MinValue;
-                            record_match[u].licenseID = null;
-                            record_match[u].status = null;
-                        }
-                         */
+                    // Clearing the temporary records for next iteration
+                    for (int u = 0; u < record_match.Length; u++)
+                    {
+                        record_match[u].date = DateTime.MinValue;
+                        record_match[u].licenseID = null;
+                        record_match[u].status = null;
                     }
                 }
 
