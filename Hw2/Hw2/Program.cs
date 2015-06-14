@@ -43,7 +43,6 @@ namespace Hw2
 
     class Program
     {
-
         static void Main(string[] args)
         {
             Grocery[] groceryData = new Grocery[6000];
@@ -66,32 +65,22 @@ namespace Hw2
 
             string filePath = "..\\..\\data\\" + dataFolderName + "\\";
 
-
-
             var reader = new StreamReader(File.OpenRead(@filePath + "Grocery_Stores_2013.csv"));
-
             var line0 = reader.ReadLine();
             Console.WriteLine("\n Store Name  License ID \n ");
             while (!reader.EndOfStream)
             {
-
                 var line = reader.ReadLine();
                 var values = line.Split(',');
-
                 groceryData[i].storeName = values[0];
                 groceryData[i].licenseID = values[1];
-
                 Console.WriteLine("\n {0} {1} ", groceryData[i].storeName, groceryData[i].licenseID);
-
                 i++;
-
             }
             gro_num = i;
 
             Console.WriteLine("********************************************************************");
-
-
-
+            
             long j = 0;
             long num = 0;
             var reader1 = new StreamReader(File.OpenRead(@filePath + "Food_Inspections_2014.csv"));
@@ -100,16 +89,13 @@ namespace Hw2
 
             while (!reader1.EndOfStream)
             {
-
                 var line = reader1.ReadLine();
                 var values = line.Split(',');
 
                 bool chk = long.TryParse(values[0], out num);
-
-
+                
                 if (chk && num > 9999)
                 {
-
                     string type = values[4].ToUpper();
                     string name = "GROCERY";
                     bool flag = type.Contains(name);
@@ -133,15 +119,12 @@ namespace Hw2
 
             long x = 0;
             long bldg_num = 0;
-
             long num1 = 0;
             var reader3 = new StreamReader(File.OpenRead(@filePath + "Building_Violations.csv"));
 
             var line_first = reader3.ReadLine();
             Console.WriteLine("\n Inspection Status  Address \n ");
-
-
-
+                        
             while (!reader3.EndOfStream)
             {
 
@@ -155,26 +138,13 @@ namespace Hw2
                 //Console.WriteLine("\n {0}  {1} ", bldg[x].ID, bldg[x].Address);
 
                 x++;
-
-
-
-
-
             }
             bldg_num = x;
 
-
-
-
-
-            Console.Write("------------------------------------------------------------------------------------------------");
             int n = 0;
             int c = 0;
             long m = 0;
             DateTime maxDate = DateTime.MinValue;
-
-
-
 
             for (long k = 0; k < gro_num; k++)
             {
@@ -184,28 +154,20 @@ namespace Hw2
                     isInspcted = true;
                     if (string.Compare(groceryData[k].licenseID, foodInspectionData[m].storeLicenseID) == 0)
                     {
-
                         record_match[c].licenseID = groceryData[k].licenseID;
                         record_match[c].date = Convert.ToDateTime(foodInspectionData[m].inspectionDate);
                         record_match[c].status = foodInspectionData[m].foodInspectionStatus;
                     }
                     c++;
                 }
-
-
-
+                
                 foreach (var r in record_match)
                 {
-
                     if (maxDate < r.date)
                     {
                         maxDate = r.date;
                     }
-
-
                     //Console.WriteLine("\n MAX DATE IS === {0} ", maxDate);
-
-
                 }
 
                 for (int q = 0; q < record_match.Length; q++)
@@ -222,16 +184,8 @@ namespace Hw2
                             finalAnalysis[n].storeLicenceID = record_match[q].licenseID;
                             n++;
                         }
-
                     }
-
-
                 }
-
-
-
-
-
 
                 if (!isInspcted)
                 {
@@ -240,8 +194,6 @@ namespace Hw2
                     finalAnalysis[n].storeLicenceID = groceryData[k].licenseID;
                     n++;
                 }
-
-
             }
 
             Console.Write("\n analysis data");
