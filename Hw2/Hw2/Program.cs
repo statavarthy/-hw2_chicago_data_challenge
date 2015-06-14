@@ -5,49 +5,70 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hw2 
+namespace Hw2
 {
     struct Grocery
     {
         public string storeName;
-        public string LicenseID;
+        public string licenseID;
     };
 
-    struct BuildingInsp
+    struct BuildingInspection
     {
-        public string InspectionStatus;
-        public string Address;
-        public string ID;
+        public string buildingInspectionStatus;
+        public string buildingAddress;
+        public string buildingID;
     };
 
-    struct FoodInsp
+    struct FoodInspection
+    {
+        public string foodInspectionStatus;
+        public string storeLicenseID;
+        public string inspectionDate;
+    };
+
+    struct FinalAnalysis
+    {
+        public string storeInspectionStatus;
+        public string storeName;
+        public string storeLicenceID;
+    };
+
+    struct TempRecordMatch
     {
         public string status;
-        public string LicenseID;
-    };
+        public string licenseID;
+        public DateTime date;
+    }
 
-    struct analysis
-    {
-        public string InspectionStatus;
-        public string storeName;
-        public string LicenseID;
-    };
-   
     class Program
     {
-       
+
         static void Main(string[] args)
         {
-            Grocery[] data = new Grocery[6000];
-            FoodInsp[] data1 = new FoodInsp[40000];
-            analysis[] final = new analysis[20000];
-            BuildingInsp[] bldg = new BuildingInsp[200000];
-            
+            Grocery[] groceryData = new Grocery[6000];
+            FoodInspection[] foodInspectionData = new FoodInspection[40000];
+            FinalAnalysis[] finalAnalysis = new FinalAnalysis[20000];
+            BuildingInspection[] buildingData = new BuildingInspection[200000];
+            TempRecordMatch[] record_match = new TempRecordMatch[10];
+
             int i = 0;
             int gro_num = 0;
             long food_num = 0;
+            string dataFolderName = "";
 
-            var reader = new StreamReader(File.OpenRead(@"..\..\data\Grocery_Stores_2013.csv"));
+            bool testMode = false;
+
+            if (testMode)
+                dataFolderName = "testData";
+            else
+                dataFolderName = "actualData";
+
+            string filePath = "..\\..\\data\\" + dataFolderName + "\\";
+
+
+
+            var reader = new StreamReader(File.OpenRead(@filePath + "Grocery_Stores_2013.csv"));
 
             var line0 = reader.ReadLine();
             Console.WriteLine("\n Store Name  License ID \n ");
@@ -57,10 +78,10 @@ namespace Hw2
                 var line = reader.ReadLine();
                 var values = line.Split(',');
 
-                data[i].storeName = values[0];
-                data[i].LicenseID = values[1];
+                groceryData[i].storeName = values[0];
+                groceryData[i].licenseID = values[1];
 
-                Console.WriteLine("\n {0} {1} ", data[i].storeName, data[i].LicenseID);
+                Console.WriteLine("\n {0} {1} ", groceryData[i].storeName, groceryData[i].licenseID);
 
                 i++;
 
@@ -73,7 +94,7 @@ namespace Hw2
 
             long j = 0;
             long num = 0;
-            var reader1 = new StreamReader(File.OpenRead(@"..\..\data\Food_Inspections_2014.csv"));
+            var reader1 = new StreamReader(File.OpenRead(@filePath + "Food_Inspections_2014.csv"));
             var line0_new = reader1.ReadLine();
             Console.WriteLine("\n License ID  Status \n");
 
@@ -93,14 +114,15 @@ namespace Hw2
                     string name = "GROCERY";
                     bool flag = type.Contains(name);
                     string date = values[10];
-                    bool timeFlag = date.Contains("2014");
+                    bool timeFlag = date.Contains("2013");
 
                     if (flag && timeFlag)
                     {
 
-                        data1[j].LicenseID = values[3];
-                        data1[j].status = values[12];
-                        Console.WriteLine("\n {0} {1} ", data1[j].LicenseID, data1[j].status);
+                        foodInspectionData[j].storeLicenseID = values[3];
+                        foodInspectionData[j].foodInspectionStatus = values[12];
+                        foodInspectionData[j].inspectionDate = values[10];
+                        Console.WriteLine("\n {0}  {1} {2} ", foodInspectionData[j].storeLicenseID, foodInspectionData[j].foodInspectionStatus, foodInspectionData[j].inspectionDate);
                         j++;
                     }
 
@@ -113,75 +135,109 @@ namespace Hw2
             long bldg_num = 0;
 
             long num1 = 0;
-            var reader3 = new StreamReader(File.OpenRead(@"..\..\data\Building_Violations.csv"));
+            var reader3 = new StreamReader(File.OpenRead(@filePath + "Building_Violations.csv"));
 
             var line_first = reader3.ReadLine();
             Console.WriteLine("\n Inspection Status  Address \n ");
-           
-
-
-                while (!reader3.EndOfStream)
-                {
-
-                    var line = reader3.ReadLine();
-                    var values = line.Split(new string[] { "#@" }, StringSplitOptions.None);
-                    bool linechk = long.TryParse(values[0], out num1);
-
-                    bldg[x].ID = values[0];
-                    bldg[x].Address = values[16];
-
-                    Console.WriteLine("\n {0}  {1} ", bldg[x].ID, bldg[x].Address);
-
-                    x++;
 
 
 
+            while (!reader3.EndOfStream)
+            {
+
+                var line = reader3.ReadLine();
+                var values = line.Split(new string[] { "#@" }, StringSplitOptions.None);
+                bool linechk = long.TryParse(values[0], out num1);
+
+                buildingData[x].buildingID = values[0];
+                buildingData[x].buildingAddress = values[16];
+
+                //Console.WriteLine("\n {0}  {1} ", bldg[x].ID, bldg[x].Address);
+
+                x++;
 
 
-                }
-                bldg_num = x;
-            
-            
+
+
+
+            }
+            bldg_num = x;
+
+
 
 
 
             Console.Write("------------------------------------------------------------------------------------------------");
             int n = 0;
+            int c = 0;
+            long m = 0;
+            DateTime maxDate = DateTime.MinValue;
+
 
 
 
             for (long k = 0; k < gro_num; k++)
             {
-                bool found = false;
-                for (long m = 0; m < food_num; m++)
+                bool isInspcted = false;
+                for (m = 0; m < food_num; m++)
                 {
-                    int res = string.Compare(data[k].LicenseID, "1042888");
-                    if (res == 0)
+                    isInspcted = true;
+                    if (string.Compare(groceryData[k].licenseID, foodInspectionData[m].storeLicenseID) == 0)
                     {
-                        int g = 9;
+
+                        record_match[c].licenseID = groceryData[k].licenseID;
+                        record_match[c].date = Convert.ToDateTime(foodInspectionData[m].inspectionDate);
+                        record_match[c].status = foodInspectionData[m].foodInspectionStatus;
+                    }
+                    c++;
+                }
+
+
+
+                foreach (var r in record_match)
+                {
+
+                    if (maxDate < r.date)
+                    {
+                        maxDate = r.date;
                     }
 
 
-                    if (string.Compare(data[k].LicenseID, data1[m].LicenseID) == 0)
+                    //Console.WriteLine("\n MAX DATE IS === {0} ", maxDate);
+
+
+                }
+
+                for (int q = 0; q < record_match.Length; q++)
+                {
+
+                    if (record_match[q].date == maxDate)
                     {
-                        found = true;
-                        if (string.Compare(data1[m].status.ToUpper(), "FAIL") == 0)
+
+                        if (record_match[q].status != null && string.Compare(record_match[q].status.ToUpper(), "FAIL") == 0)
                         {
 
-                            final[n].InspectionStatus = data1[m].status;
-                            final[n].storeName = data[k].storeName;
-                            final[n].LicenseID = data1[m].LicenseID;
+                            finalAnalysis[n].storeInspectionStatus = record_match[q].status;
+                            finalAnalysis[n].storeName = groceryData[k].storeName;
+                            finalAnalysis[n].storeLicenceID = record_match[q].licenseID;
                             n++;
                         }
 
                     }
 
+
                 }
-                if (!found)
+
+
+
+
+
+
+                if (!isInspcted)
                 {
-                    final[n].InspectionStatus = "NOT INSPECTED";
-                    final[n].storeName = data[k].storeName;
-                    final[n].LicenseID = data[k].LicenseID;
+                    finalAnalysis[n].storeInspectionStatus = "NOT INSPECTED";
+                    finalAnalysis[n].storeName = groceryData[k].storeName;
+                    finalAnalysis[n].storeLicenceID = groceryData[k].licenseID;
                     n++;
                 }
 
@@ -192,9 +248,9 @@ namespace Hw2
 
             for (i = 0; i < n; i++)
             {
-                Console.Write("\n {0} {1} {2} ", final[i].storeName, final[i].InspectionStatus, final[i].LicenseID);
+                Console.Write("\n {0} {1} {2} ", finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].storeLicenceID);
             }
-                
+
         }
     }
 }
