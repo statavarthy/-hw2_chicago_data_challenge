@@ -1,0 +1,12 @@
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\parse data\Hw2\Hw2\bin\Debug\Hw2.exe.config
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\parse data\Hw2\Hw2\bin\Debug\Hw2.exe
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\parse data\Hw2\Hw2\bin\Debug\Hw2.pdb
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\parse data\Hw2\Hw2\obj\Debug\Hw2.csprojResolveAssemblyReference.cache
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\parse data\Hw2\Hw2\obj\Debug\Hw2.exe
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\parse data\Hw2\Hw2\obj\Debug\Hw2.pdb
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\Hw2\Hw2_chicago_data_challenge\Hw2\Hw2\bin\Debug\Hw2.exe.config
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\Hw2\Hw2_chicago_data_challenge\Hw2\Hw2\obj\Debug\Hw2.exe
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\Hw2\Hw2_chicago_data_challenge\Hw2\Hw2\obj\Debug\Hw2.pdb
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\Hw2\Hw2_chicago_data_challenge\Hw2\Hw2\bin\Debug\Hw2.exe
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\Hw2\Hw2_chicago_data_challenge\Hw2\Hw2\bin\Debug\Hw2.pdb
+C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\Hw2\Hw2_chicago_data_challenge\Hw2\Hw2\obj\Debug\Hw2.csprojResolveAssemblyReference.cache
