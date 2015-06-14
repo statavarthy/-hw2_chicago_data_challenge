@@ -15,6 +15,9 @@
  * 
  * Maintenance History:
  * --------------------
+ * ver 1.5 : 14 Jun 2015
+ * - Fixed the logic for correlating  grcoery stores with food inspections
+ * 
  * ver 1.4 : 14 Jun 2015
  * - Added maintaineance history, Summary and comments 
  *  
@@ -92,7 +95,7 @@ namespace Hw2
             // boolean to identify the data folder whether test or actual
             // testMode = true --> take the data from testData folder
             // testMode = false --> take the data from actualData folder
-            bool testMode = false;
+            bool testMode = true;
 
             // specify the folder from which data is to be taken
             if (testMode)
@@ -106,7 +109,6 @@ namespace Hw2
             // STEP - 1 : Parse the "Grocery Stores" data
             var reader = new StreamReader(File.OpenRead(@filePath + "Grocery_Stores_2013.csv"));
             var line0 = reader.ReadLine();
-            Console.WriteLine("\n Store Name  License ID \n ");
 
             // Populating groceryData
             while (!reader.EndOfStream)
@@ -116,20 +118,17 @@ namespace Hw2
                 groceryData[i].storeName = values[0];
                 groceryData[i].licenseID = values[1];
                 if (testMode)
-                    Console.WriteLine("\n {0} {1} ", groceryData[i].storeName, groceryData[i].licenseID);
+                   // Console.WriteLine("\n {0} {1} ", groceryData[i].storeName, groceryData[i].licenseID);
                 i++;
             }
-            groceryStoreCnt = i;
 
-            Console.WriteLine("********************************************************************");
-            
+            groceryStoreCnt = i;            
             long j = 0;
             long num = 0;
 
             // STEP - 2 : Parse the Food Inspections data
             var reader1 = new StreamReader(File.OpenRead(@filePath + "Food_Inspections_2014.csv"));
-            var line0_new = reader1.ReadLine();
-            Console.WriteLine("\n License ID  Status \n");
+            var line0_new = reader1.ReadLine();           
 
             while (!reader1.EndOfStream)
             {
@@ -153,7 +152,7 @@ namespace Hw2
                         foodInspectionData[j].foodInspectionStatus = values[12];
                         foodInspectionData[j].inspectionDate = values[10];
                         if (testMode)
-                            Console.WriteLine("\n {0}  {1} {2} ", foodInspectionData[j].storeLicenseID, foodInspectionData[j].foodInspectionStatus, foodInspectionData[j].inspectionDate);
+                           // Console.WriteLine("\n {0}  {1} {2} ", foodInspectionData[j].storeLicenseID, foodInspectionData[j].foodInspectionStatus, foodInspectionData[j].inspectionDate);
                         j++;
                     }
 
@@ -170,7 +169,6 @@ namespace Hw2
             var reader3 = new StreamReader(File.OpenRead(@filePath + "Building_Violations.csv"));
 
             var line_first = reader3.ReadLine();
-            Console.WriteLine("\n Inspection Status  Address \n ");
             // Populating foodInspection data           
             while (!reader3.EndOfStream)
             {
@@ -180,7 +178,7 @@ namespace Hw2
                 buildingData[x].buildingAddress = values[16];
                 
                 if (testMode)
-                    Console.WriteLine("\n {0}  {1} ", buildingData[x].buildingID, buildingData[x].buildingAddress);
+                    //Console.WriteLine("\n {0}  {1} ", buildingData[x].buildingID, buildingData[x].buildingAddress);
 
                 x++;
             }
@@ -197,44 +195,14 @@ namespace Hw2
                 bool isInspcted = false;
                 for (m = 0; m < foodInspectionCnt; m++)
                 {
-                    isInspcted = true;
                     if (string.Compare(groceryData[k].licenseID, foodInspectionData[m].storeLicenseID) == 0)
                     {
+                        isInspcted = true;
                         record_match[c].licenseID = groceryData[k].licenseID;
                         record_match[c].date = Convert.ToDateTime(foodInspectionData[m].inspectionDate);
                         record_match[c].status = foodInspectionData[m].foodInspectionStatus;
                     }
                     c++;
-                }
-                
-                // Considering the latest (max) inspection date for all the matched records
-                foreach (var r in record_match)
-                {
-                    if (maxDate < r.date)
-                    {
-                        maxDate = r.date;
-                    }
-                    
-                    if (testMode)
-                        Console.WriteLine("\n MAX DATE IS === {0} ", maxDate);
-                }
-
-                // considering only failed inpsection records
-                for (int q = 0; q < record_match.Length; q++)
-                {
-
-                    if (record_match[q].date == maxDate)
-                    {
-
-                        if (record_match[q].status != null && string.Compare(record_match[q].status.ToUpper(), "FAIL") == 0)
-                        {
-
-                            finalAnalysis[n].storeInspectionStatus = record_match[q].status;
-                            finalAnalysis[n].storeName = groceryData[k].storeName;
-                            finalAnalysis[n].storeLicenceID = record_match[q].licenseID;
-                            n++;
-                        }
-                    }
                 }
 
                 // populating the grocery stores that are not matched (not been inspected)
@@ -245,14 +213,56 @@ namespace Hw2
                     finalAnalysis[n].storeLicenceID = groceryData[k].licenseID;
                     n++;
                 }
+                
+                // Considering the latest (max) inspection date for all the matched records
+                if (isInspcted)
+                {
+                    foreach (var r in record_match)
+                    {
+                        if (maxDate < r.date)
+                        {
+                            maxDate = r.date;
+                        }
+                    }
+
+                    // considering only failed inpsection records
+                    for (int q = 0; q < record_match.Length; q++)
+                    {
+                        if (record_match[q].date == maxDate)
+                        {
+                            if (record_match[q].status != null && string.Compare(record_match[q].status.ToUpper(), "FAIL") == 0)
+                            {
+                                finalAnalysis[n].storeInspectionStatus = record_match[q].status;
+                                finalAnalysis[n].storeName = groceryData[k].storeName;
+                                finalAnalysis[n].storeLicenceID = record_match[q].licenseID;
+                                n++;
+                            }
+                        }
+
+                        /*
+                        for (int u = 0; u < record_match.Length; u++)
+                        {
+                            record_match[u].date = DateTime.MinValue;
+                            record_match[u].licenseID = null;
+                            record_match[u].status = null;
+                        }
+                         */
+                    }
+                }
+
+                
             }
 
             // printing the final result of correlation
-            Console.Write("\n analysis data");
+            Console.WriteLine("Final analysis data :");
+            Console.WriteLine("******************************************************************");            
+            Console.WriteLine("License ID \t\t Store Name \t\t Inspection Status");
+
 
             for (i = 0; i < n; i++)
-            {
-                Console.Write("\n {0} {1} {2} ", finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].storeLicenceID);
+            {               
+                Console.WriteLine("{0} \t\t\t {1} \t\t {2}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus);
+
             }
 
         }
