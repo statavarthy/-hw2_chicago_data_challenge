@@ -15,6 +15,9 @@
  * 
  * Maintenance History:
  * --------------------
+ * ver 1.6 : 14 Jun 2015
+ * -Fixed issues while testing with original datasets. Fixed issues related to out of bound Exceptions.
+ * 
  * ver 1.5 : 14 Jun 2015
  * - Fixed the logic for correlating grocery stores with food inspections
  * 
@@ -95,7 +98,8 @@ namespace Hw2
             // boolean to identify the data folder whether test or actual
             // testMode = true --> take the data from testData folder
             // testMode = false --> take the data from actualData folder
-            bool testMode = false;
+             //bool testMode = true;
+             bool testMode = false;
 
             // specify the folder from which data is to be taken
             if (testMode)
@@ -114,7 +118,7 @@ namespace Hw2
             while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
-                var values = line.Split(',');
+                var values = line.Split(new string[] { "#@" }, StringSplitOptions.None);
                 groceryData[i].storeName = values[0];
                 groceryData[i].licenseID = values[1];                
                 i++;
@@ -131,10 +135,9 @@ namespace Hw2
             while (!reader1.EndOfStream)
             {
                 var line = reader1.ReadLine();
-                var values = line.Split(',');
-                //checking the start of each line
-                bool chk = long.TryParse(values[0], out num); 
-              
+                var values = line.Split(new string[] { "#@" }, StringSplitOptions.None);
+                //checking the start of each line  
+                bool chk = long.TryParse(values[0], out num);
                 if (chk && num > 9999)
                 {
                     string facilityType = values[4].ToUpper();
@@ -148,12 +151,10 @@ namespace Hw2
                     {
                         foodInspectionData[j].storeLicenseID = values[3];
                         foodInspectionData[j].foodInspectionStatus = values[12];
-                        foodInspectionData[j].inspectionDate = values[10];                       
+                        foodInspectionData[j].inspectionDate = values[10];
                         j++;
                     }
-
                 }
-
             }
             foodInspectionCnt = j;
 
@@ -185,10 +186,16 @@ namespace Hw2
             for (long k = 0; k < groceryStoreCnt; k++)
             {
                 bool isInspcted = false;
+                c = 0;
+                maxDate = DateTime.MinValue;
                 for (m = 0; m < foodInspectionCnt; m++)
                 {
                     if (string.Compare(groceryData[k].licenseID, foodInspectionData[m].storeLicenseID) == 0)
                     {
+                        if (groceryData[k].licenseID == "980")
+                        {
+                            int d = 4;
+                        }
                         isInspcted = true;
                         record_match[c].licenseID = groceryData[k].licenseID;
                         record_match[c].date = Convert.ToDateTime(foodInspectionData[m].inspectionDate);
@@ -221,10 +228,18 @@ namespace Hw2
                     // considering only failed inpsection records
                     for (int q = 0; q < record_match.Length; q++)
                     {
+                        if (record_match[q].licenseID == "980")
+                        {
+                            int d = 4;
+                        }
                         if (record_match[q].date == maxDate)
                         {
+
+                            
                             if (record_match[q].status != null && string.Compare(record_match[q].status.ToUpper(), "FAIL") == 0)
                             {
+                                
+
                                 finalAnalysis[n].storeInspectionStatus = record_match[q].status;
                                 finalAnalysis[n].storeName = groceryData[k].storeName;
                                 finalAnalysis[n].storeLicenceID = record_match[q].licenseID;
@@ -247,13 +262,14 @@ namespace Hw2
 
             // printing the final result of correlation
             Console.WriteLine("Final analysis data :");
-            Console.WriteLine("******************************************************************");            
-            Console.WriteLine("License ID \t\t Store Name \t\t Inspection Status");
+            Console.WriteLine("------------------------------------------------------------------------------");            
+            Console.WriteLine("{0,-15}  {1,-40}  {2,20}", "License ID", "Store Name",  "Inspection Status");
+            Console.WriteLine("------------------------------------------------------------------------------");            
 
 
             for (i = 0; i < n; i++)
-            {               
-                Console.WriteLine("{0} \t\t\t {1} \t\t {2}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus);
+            {
+                Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus));
 
             }
 
