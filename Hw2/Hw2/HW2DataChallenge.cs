@@ -15,6 +15,9 @@
  * 
  * Maintenance History:
  * --------------------
+ * ver 2.0 : 15 Jun 2015
+ * - Printed the actual violations that were found for Failed and Not Inspected grocery stores
+ * 
  * ver 1.9 : 15 Jun 2015
  * - Found Building violations for grocery stores that have not been inspected
  * - Printed the result on console
@@ -69,7 +72,7 @@ namespace Hw2
     {
         public string buildingInspectionStatus;
         public string buildingAddress;
-        public string buildingID;
+        public string violation;
     };
 
     struct FoodInspection
@@ -187,7 +190,7 @@ namespace Hw2
             {
                 var line = reader3.ReadLine();
                 var values = line.Split(new string[] { "#@" }, StringSplitOptions.None);
-                buildingData[x].buildingID = values[0];
+                buildingData[x].violation = values[6];
                 buildingData[x].buildingAddress = values[16];                               
                 x++;
             }
@@ -207,11 +210,7 @@ namespace Hw2
                 for (m = 0; m < foodInspectionCnt; m++)
                 {
                     if (string.Compare(groceryData[k].licenseID, foodInspectionData[m].storeLicenseID) == 0)
-                    {
-                        if (groceryData[k].licenseID == "980")
-                        {
-                            int d = 4;
-                        }
+                    {                       
                         isInspcted = true;
                         record_match[c].licenseID = groceryData[k].licenseID;
                         record_match[c].date = Convert.ToDateTime(foodInspectionData[m].inspectionDate);
@@ -232,7 +231,7 @@ namespace Hw2
                     {
                         if (string.Compare(finalAnalysis[n].addressFailedGrocery, buildingData[g].buildingAddress) == 0)
                         {
-                            finalAnalysis[n].violation = "Violation";
+                            finalAnalysis[n].violation = buildingData[g].violation;
                             break;
                         }
                         else
@@ -272,7 +271,7 @@ namespace Hw2
                                 {
                                     if (string.Compare(finalAnalysis[n].addressFailedGrocery, buildingData[g].buildingAddress) == 0)
                                     {
-                                        finalAnalysis[n].violation = "Violation";
+                                        finalAnalysis[n].violation = buildingData[g].violation;
                                         break;
                                     }
                                     else
@@ -299,14 +298,14 @@ namespace Hw2
 
             // printing the final result of correlation
             Console.WriteLine("Final analysis data :");
-            Console.WriteLine("------------------------------------------------------------------------------");            
-            Console.WriteLine("{0,-15}  {1,-40}  {2,20} {3,30} ", "License ID", "Store Name",  "Inspection Status","VIOLATION");
-            Console.WriteLine("------------------------------------------------------------------------------");            
+            Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");            
+            Console.WriteLine("{0,-15}  {1,-40}  {2,20} {3,40} ", "License ID", "Store Name",  "Inspection Status","Violation");
+            Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");            
 
 
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} {3,30}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].violation));
+                Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} {3,40}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].violation));
 
             }
 
