@@ -15,6 +15,10 @@
  * 
  * Maintenance History:
  * --------------------
+ * ver 1.7 : 14 Jun 2015
+ * -Fixed errors in correlation testing. Output now shows correct results
+ * -Formatted the output display in tabular format
+ * 
  * ver 1.6 : 14 Jun 2015
  * -Fixed issues while testing with original datasets. Fixed issues related to out of bound Exceptions.
  * 
@@ -50,6 +54,7 @@ namespace Hw2
     {
         public string storeName;
         public string licenseID;
+        public string groceryAddress;
     };
 
     struct BuildingInspection
@@ -71,6 +76,8 @@ namespace Hw2
         public string storeInspectionStatus;
         public string storeName;
         public string storeLicenceID;
+        public string addressFailedGrocery;
+        public string violation;
     };
 
     struct TempRecordMatch
@@ -100,7 +107,7 @@ namespace Hw2
             // testMode = false --> take the data from actualData folder
              //bool testMode = true;
              bool testMode = false;
-
+             bool failedGrocery = false;
             // specify the folder from which data is to be taken
             if (testMode)
                 dataFolderName = "testData";
@@ -120,7 +127,8 @@ namespace Hw2
                 var line = reader.ReadLine();
                 var values = line.Split(new string[] { "#@" }, StringSplitOptions.None);
                 groceryData[i].storeName = values[0];
-                groceryData[i].licenseID = values[1];                
+                groceryData[i].licenseID = values[1];
+                groceryData[i].groceryAddress = values[5];
                 i++;
             }
 
@@ -228,22 +236,26 @@ namespace Hw2
                     // considering only failed inpsection records
                     for (int q = 0; q < record_match.Length; q++)
                     {
-                        if (record_match[q].licenseID == "980")
-                        {
-                            int d = 4;
-                        }
+                        failedGrocery = false;
                         if (record_match[q].date == maxDate)
-                        {
-
-                            
+                        {                            
                             if (record_match[q].status != null && string.Compare(record_match[q].status.ToUpper(), "FAIL") == 0)
                             {
-                                
 
+                                failedGrocery = true;
                                 finalAnalysis[n].storeInspectionStatus = record_match[q].status;
                                 finalAnalysis[n].storeName = groceryData[k].storeName;
                                 finalAnalysis[n].storeLicenceID = record_match[q].licenseID;
-                                n++;
+                                finalAnalysis[n].addressFailedGrocery = groceryData[k].groceryAddress;
+                                for (int g = 0; g < bldg_num; g++)
+                                {
+                                    if (string.Compare(finalAnalysis[n].addressFailedGrocery, buildingData[g].buildingAddress) == 0)
+                                    {
+                                        finalAnalysis[n].violation = "VIOLATION";
+                                        break;
+                                    }
+                                }
+                                n++;  
                             }
                         }
                     }
@@ -263,13 +275,13 @@ namespace Hw2
             // printing the final result of correlation
             Console.WriteLine("Final analysis data :");
             Console.WriteLine("------------------------------------------------------------------------------");            
-            Console.WriteLine("{0,-15}  {1,-40}  {2,20}", "License ID", "Store Name",  "Inspection Status");
+            Console.WriteLine("{0,-15}  {1,-40}  {2,20} {3,30} ", "License ID", "Store Name",  "Inspection Status","VIOLATION");
             Console.WriteLine("------------------------------------------------------------------------------");            
 
 
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus));
+                Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} {3,30}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].violation));
 
             }
 
