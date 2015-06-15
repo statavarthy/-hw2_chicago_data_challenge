@@ -118,7 +118,6 @@ namespace Hw2
             // testMode = false --> take the data from actualData folder
              //bool testMode = true;
              bool testMode = false;
-             bool failedGrocery = false;
             // specify the folder from which data is to be taken
             if (testMode)
                 dataFolderName = "testData";
@@ -185,7 +184,7 @@ namespace Hw2
             var reader3 = new StreamReader(File.OpenRead(@filePath + "Building_Violations.csv"));
 
             var line_first = reader3.ReadLine();
-            // Populating foodInspection data           
+            // Populating Building Violations data           
             while (!reader3.EndOfStream)
             {
                 var line = reader3.ReadLine();
@@ -209,6 +208,8 @@ namespace Hw2
                 maxDate = DateTime.MinValue;
                 for (m = 0; m < foodInspectionCnt; m++)
                 {
+
+                    //comparing the license ID of grocery stores with the stores in food inspections data
                     if (string.Compare(groceryData[k].licenseID, foodInspectionData[m].storeLicenseID) == 0)
                     {                       
                         isInspcted = true;
@@ -227,8 +228,12 @@ namespace Hw2
                     finalAnalysis[n].storeName = groceryData[k].storeName;
                     finalAnalysis[n].storeLicenceID = groceryData[k].licenseID;
                     finalAnalysis[n].addressFailedGrocery = groceryData[k].groceryAddress;
+
+                    // populating the grocery stores not inspected and having building violations
                     for (int g = 0; g < bldg_num; g++)
                     {
+                        
+                        //comparing grocery store address with building address to check for violation
                         if (string.Compare(finalAnalysis[n].addressFailedGrocery, buildingData[g].buildingAddress) == 0)
                         {
                             finalAnalysis[n].violation = buildingData[g].violation;
@@ -256,19 +261,22 @@ namespace Hw2
                     // considering only failed inpsection records
                     for (int q = 0; q < record_match.Length; q++)
                     {
-                        failedGrocery = false;
                         if (record_match[q].date == maxDate)
-                        {                            
+                        {        
+                    
+                            // Comparing the status to find only the failed records
                             if (record_match[q].status != null && string.Compare(record_match[q].status.ToUpper(), "FAIL") == 0)
                             {
-
-                                failedGrocery = true;
                                 finalAnalysis[n].storeInspectionStatus = record_match[q].status;
                                 finalAnalysis[n].storeName = groceryData[k].storeName;
                                 finalAnalysis[n].storeLicenceID = record_match[q].licenseID;
                                 finalAnalysis[n].addressFailedGrocery = groceryData[k].groceryAddress;
+
+                                // populating the grocery stores that have failed food inspection and have building violations
                                 for (int g = 0; g < bldg_num; g++)
                                 {
+
+                                    //comparing grocery store address with building address to check for violation
                                     if (string.Compare(finalAnalysis[n].addressFailedGrocery, buildingData[g].buildingAddress) == 0)
                                     {
                                         finalAnalysis[n].violation = buildingData[g].violation;
