@@ -15,6 +15,14 @@
  * 
  * Maintenance History:
  * --------------------
+ * ver 1.9 : 15 Jun 2015
+ * - Found Building violations for grocery stores that have not been inspected
+ * - Printed the result on console
+ * 
+ * ver 1.8 : 15 Jun 2015
+ * - Found correlation between grocery stores failed in inspection and have building violation
+ * - Printed the result on console
+ * 
  * ver 1.7 : 14 Jun 2015
  * -Fixed errors in correlation testing. Output now shows correct results
  * -Formatted the output display in tabular format
@@ -219,6 +227,19 @@ namespace Hw2
                     finalAnalysis[n].storeInspectionStatus = "NOT INSPECTED";
                     finalAnalysis[n].storeName = groceryData[k].storeName;
                     finalAnalysis[n].storeLicenceID = groceryData[k].licenseID;
+                    finalAnalysis[n].addressFailedGrocery = groceryData[k].groceryAddress;
+                    for (int g = 0; g < bldg_num; g++)
+                    {
+                        if (string.Compare(finalAnalysis[n].addressFailedGrocery, buildingData[g].buildingAddress) == 0)
+                        {
+                            finalAnalysis[n].violation = "Violation";
+                            break;
+                        }
+                        else
+                        {
+                            finalAnalysis[n].violation = "No Building Violation";
+                        }
+                    }
                     n++;
                 }
                 
@@ -251,8 +272,12 @@ namespace Hw2
                                 {
                                     if (string.Compare(finalAnalysis[n].addressFailedGrocery, buildingData[g].buildingAddress) == 0)
                                     {
-                                        finalAnalysis[n].violation = "VIOLATION";
+                                        finalAnalysis[n].violation = "Violation";
                                         break;
+                                    }
+                                    else
+                                    {
+                                        finalAnalysis[n].violation = "No Building Violation";
                                     }
                                 }
                                 n++;  
