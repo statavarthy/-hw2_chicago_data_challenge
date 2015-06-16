@@ -15,6 +15,9 @@
  * 
  * Maintenance History:
  * --------------------
+ * ver 2.1 : 15 Jun 2015
+ * -Added Display module with user interface
+ * 
  * ver 2.0 : 15 Jun 2015
  * - Printed the actual violations that were found for Failed and Not Inspected grocery stores
  * 
@@ -305,75 +308,82 @@ namespace Hw2
 
                 
             }
-
-            Console.WriteLine("\n\n*************************** Chicago Grocery Stores Database*********************************");
-
-            Console.WriteLine("\n\n The Following Database will give you information about grocery stores that have been inspected in chicago");
-
-            Console.WriteLine("\n\n 1. Grocery Stores that have failed the Inpsection");
-            Console.WriteLine("\n\n 2. Grocery Stores that have not undergone the Inpsection");
-            Console.WriteLine("\n\n 3. Grocery Stores with failed Food Inspection and Building Violations");
-            Console.WriteLine("\n\n 4. Grocery Stores that have not undergone the Inpsection and have Building violations");
-
-            Console.WriteLine("\n Enter your choice :");
-
             string choice;
+            string answer="Y";
 
-            choice = Console.ReadLine();
+            Console.WriteLine("\n\n*************************** Chicago Grocery Stores Database*************************************************");
 
-            if(choice=="1")
+            Console.WriteLine("\n\nThe Following Database will give you information about grocery stores that have been inspected in chicago");
+            Console.WriteLine("It will also display the grocery stores that have failed food inspection also have building violations");
+            Console.WriteLine("This database has been compiled considering the records of 2013 and shows only the FAILED records");
+            
+            while (string.Compare(answer.ToUpper(),"Y")==0)
             {
-                Console.WriteLine("Grocery Stores that have failed Food Inspection :");
-                Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");            
-                Console.WriteLine("{0,-15}  {1,-40}  {2,20}  ", "License ID", "Store Name", "Inspection Status");
-                for (i = 0; i < n; i++)
+                Console.WriteLine("\n\n 1. Grocery Stores that have failed the Inpsection");
+                Console.WriteLine("\n\n 2. Grocery Stores that have not undergone the Inpsection");
+                Console.WriteLine("\n\n 3. Grocery Stores with failed Food Inspection and Building Violations");
+                Console.WriteLine("\n\n 4. Grocery Stores that have not undergone the Inpsection and have Building violations");
+                Console.WriteLine("\n Enter your choice :");
+                choice = Console.ReadLine();
+
+                if (choice == "1")
                 {
-                    if (string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "FAIL")==0)
-                        Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} ", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus));
+                    Console.WriteLine("Grocery Stores that have failed Food Inspection :");
+                    Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
+                    Console.WriteLine("{0,-15}  {1,-40}  {2,20}  ", "License ID", "Store Name", "Inspection Status");
+                    for (i = 0; i < n; i++)
+                    {
+                        if (string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "FAIL") == 0)
+                            Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} ", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus));
+
+                    }
 
                 }
 
-            }
-
-            if(choice=="2")
-            {
-                Console.WriteLine("Grocery Stores that have not undergone Food Inspection :");
-                Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
-                Console.WriteLine("{0,-15}  {1,-40}  {2,20}  ", "License ID", "Store Name", "Inspection Status");
-                for (i = 0; i < n; i++)
+                if (choice == "2")
                 {
-                    if (string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "NOT INSPECTED") == 0)
-                        Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} ", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus));
+                    Console.WriteLine("Grocery Stores that have not undergone Food Inspection :");
+                    Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
+                    Console.WriteLine("{0,-15}  {1,-40}  {2,20}  ", "License ID", "Store Name", "Inspection Status");
+                    for (i = 0; i < n; i++)
+                    {
+                        if (string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "NOT INSPECTED") == 0)
+                            Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} ", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus));
+
+                    }
 
                 }
 
-            }
-
-            if (choice == "3")
-            {
-                Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations :");
-                Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
-                Console.WriteLine("{0,-15}  {1,-40}  {2,20} {3,40} ", "License ID", "Store Name","Inspection Status", " Building Violation");
-                for (i = 0; i < n; i++)
+                if (choice == "3")
                 {
-                    if ((string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "FAIL") == 0) && (string.Compare(finalAnalysis[i].violation.ToUpper(), "NO BUILDING VIOLATION")==1))
-                        Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} ", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName,finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].violation)); 
+                    Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations :");
+                    Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
+                    Console.WriteLine("{0,-15}  {1,-40}  {2,20} {3,40} ", "License ID", "Store Name", "Inspection Status", " Building Violation");
+                    for (i = 0; i < n; i++)
+                    {
+                        if ((string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "FAIL") == 0) && (string.Compare(finalAnalysis[i].violation.ToUpper(), "NO BUILDING VIOLATION") == 1))
+                            Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} ", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].violation));
+                    }
+
                 }
 
-            }
-
-            if (choice == "4")
-            {
-                Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations :");
-                Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
-                Console.WriteLine("{0,-15}  {1,-40}  {2,20}  {3,40}", "License ID", "Store Name", "Inspection Status"," Building Violation");
-                for (i = 0; i < n; i++)
+                if (choice == "4")
                 {
-                    if ((string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "NOT INSPECTED") == 0) && (string.Compare(finalAnalysis[i].violation.ToUpper(), "NO BUILDING VIOLATION") == 1))
-                        Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20}  {3,40}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus,finalAnalysis[i].violation));                   
+                    Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations :");
+                    Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
+                    Console.WriteLine("{0,-15}  {1,-40}  {2,20}  {3,40}", "License ID", "Store Name", "Inspection Status", " Building Violation");
+                    for (i = 0; i < n; i++)
+                    {
+                        if ((string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "NOT INSPECTED") == 0) && (string.Compare(finalAnalysis[i].violation.ToUpper(), "NO BUILDING VIOLATION") == 1))
+                            Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20}  {3,40}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].violation));
+                    }
+
                 }
 
+                Console.WriteLine("\n Do you wish to continue ? (Y/N) :");
+                answer = Console.ReadLine();
             }
+
 
             // printing the final result of correlation
             //Console.WriteLine("Final analysis data :");
