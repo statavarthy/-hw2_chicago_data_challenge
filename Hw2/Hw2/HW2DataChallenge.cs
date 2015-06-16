@@ -315,11 +315,13 @@ namespace Hw2
             Console.WriteLine("\n\n 3. Grocery Stores with failed Food Inspection and Building Violations");
             Console.WriteLine("\n\n 4. Grocery Stores that have not undergone the Inpsection and have Building violations");
 
-            Console.WriteLine("\n Enter your choice :\n");
+            Console.WriteLine("\n Enter your choice :");
 
-            int choice = Console.Read();
+            string choice;
 
-            if(choice==1)
+            choice = Console.ReadLine();
+
+            if(choice=="1")
             {
                 Console.WriteLine("Grocery Stores that have failed Food Inspection :");
                 Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");            
@@ -333,7 +335,7 @@ namespace Hw2
 
             }
 
-            if(choice==2)
+            if(choice=="2")
             {
                 Console.WriteLine("Grocery Stores that have not undergone Food Inspection :");
                 Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
@@ -347,19 +349,31 @@ namespace Hw2
 
             }
 
-            //if (choice == 3)
-            //{
-            //    Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations :");
-            //    Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
-            //    Console.WriteLine("{0,-15}  {1,-40}  {2,20}  ", "License ID", "Store Name", " Building Violation");
-            //    for (i = 0; i < n; i++)
-            //    {
-            //        if (string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "FAIL") == 0)&& (string.Compare(finalAnalysis[i].violation.ToUpper(),)
-            //            Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} ", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus));
+            if (choice == "3")
+            {
+                Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations :");
+                Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("{0,-15}  {1,-40}  {2,20} {3,40} ", "License ID", "Store Name","Inspection Status", " Building Violation");
+                for (i = 0; i < n; i++)
+                {
+                    if ((string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "FAIL") == 0) && (string.Compare(finalAnalysis[i].violation.ToUpper(), "NO BUILDING VIOLATION")==1))
+                        Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} ", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName,finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].violation)); 
+                }
 
-            //    }
+            }
 
-            //}
+            if (choice == "4")
+            {
+                Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations :");
+                Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("{0,-15}  {1,-40}  {2,20}  {3,40}", "License ID", "Store Name", "Inspection Status"," Building Violation");
+                for (i = 0; i < n; i++)
+                {
+                    if ((string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "NOT INSPECTED") == 0) && (string.Compare(finalAnalysis[i].violation.ToUpper(), "NO BUILDING VIOLATION") == 1))
+                        Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20}  {3,40}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus,finalAnalysis[i].violation));                   
+                }
+
+            }
 
             // printing the final result of correlation
             //Console.WriteLine("Final analysis data :");
