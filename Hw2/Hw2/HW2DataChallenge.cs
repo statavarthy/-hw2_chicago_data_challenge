@@ -308,21 +308,24 @@ namespace Hw2
 
                 
             }
+
+            //Display records for the user by giving options about the different analysis
             string choice;
             string answer="Y";
 
             Console.WriteLine("\n\n*************************** Chicago Grocery Stores Database*************************************************");
 
             Console.WriteLine("\n\nThe Following Database will give you information about grocery stores that have been inspected in chicago");
-            Console.WriteLine("It will also display the grocery stores that have failed food inspection also have building violations");
+            Console.WriteLine("It will display the grocery stores that have failed food inspections,have building violations, and that have not been inspected for food.");
             Console.WriteLine("This database has been compiled considering the records of 2013 and shows only the FAILED records");
             
             while (string.Compare(answer.ToUpper(),"Y")==0)
             {
-                Console.WriteLine("\n\n 1. Grocery Stores that have failed the Inpsection");
-                Console.WriteLine("\n\n 2. Grocery Stores that have not undergone the Inpsection");
-                Console.WriteLine("\n\n 3. Grocery Stores with failed Food Inspection and Building Violations");
-                Console.WriteLine("\n\n 4. Grocery Stores that have not undergone the Inpsection and have Building violations");
+                Console.WriteLine("******************************************MENU***************************************************************");
+                Console.WriteLine("\n 1. Grocery Stores that have failed the Inpsection");
+                Console.WriteLine("\n 2. Grocery Stores that have not undergone the Inpsection");
+                Console.WriteLine("\n 3. Grocery Stores with failed Food Inspection and Building Violations");
+                Console.WriteLine("\n 4. Grocery Stores that have not undergone the Inpsection and have Building violations");
                 Console.WriteLine("\n Enter your choice :");
                 choice = Console.ReadLine();
 
