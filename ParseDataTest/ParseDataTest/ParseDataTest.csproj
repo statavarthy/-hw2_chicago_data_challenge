@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{805158DA-6DDC-462A-B57C-5CCABB6DDA52}</ProjectGuid>
+    <ProjectGuid>{3F9815FE-5983-43BA-94F5-A6FA6D60805E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NunitTest</RootNamespace>
-    <AssemblyName>NunitTest</AssemblyName>
+    <RootNamespace>ParseDataTest</RootNamespace>
+    <AssemblyName>ParseDataTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,8 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ParseDataTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Hw2\Hw2\Hw2.csproj">
+      <Project>{70250abd-6bc4-40cc-801c-e017781ea709}</Project>
+      <Name>Hw2</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
