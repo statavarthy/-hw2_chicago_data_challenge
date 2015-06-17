@@ -78,9 +78,9 @@ namespace Hw2
 
             
             ParseData pd = new ParseData();
-            Hw2.ParseData.Grocery[] groceryData = pd.ParseGrocery(filePath+"Grocery_Stores_Analysis_case2.csv");
-            Hw2.ParseData.FoodInspection[] foodInspectionData = pd.ParseFoodInspection(filePath+"Food_Inspections_Analysis_case2.csv");
-            Hw2.ParseData.BuildingInspection[] buildingInspectionData = pd.ParseBuildingInspection(filePath + "Building_Violations_Analysis_case2.csv");
+            Hw2.ParseData.Grocery[] groceryData = pd.ParseGrocery(filePath+"Grocery_Stores_Analysis_case3.csv");
+            Hw2.ParseData.FoodInspection[] foodInspectionData = pd.ParseFoodInspection(filePath+"Food_Inspections_Analysis_case3.csv");
+            Hw2.ParseData.BuildingInspection[] buildingInspectionData = pd.ParseBuildingInspection(filePath + "Building_Violations_Analysis_case3.csv");
             Hw2.ParseData.FinalAnalysis[] finalAnalysis=pd.AnalysisGroceryFood(groceryData, foodInspectionData, buildingInspectionData,ref size);
             pd.displayData(finalAnalysis, ref size);
             
