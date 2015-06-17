@@ -162,5 +162,40 @@ namespace Hw2
         }
 
 
+        [Test]
+        public void AnalysisTest()
+        {
+
+            try
+            {
+                string filePath1 = @"C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\Hw2\Hw2_chicago_data_challenge\Hw2\Hw2\data\testData\Grocery_Stores_Analysis.csv";
+                string filePath2 = @"C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\Hw2\Hw2_chicago_data_challenge\Hw2\Hw2\data\testData\Food_Inspections_Analysis_Pass.csv";
+                string filePath3 = @"C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\Hw2\Hw2_chicago_data_challenge\Hw2\Hw2\data\testData\Building_Violations_Analysis.csv";
+                ParseData analysisTest = new ParseData();
+                Hw2.ParseData.Grocery[] groceryData = analysisTest.ParseGrocery(filePath1);
+                Hw2.ParseData.FoodInspection[] foodInspectionData = analysisTest.ParseFoodInspection(filePath2);
+                Hw2.ParseData.BuildingInspection[] buildingData = analysisTest.ParseBuildingInspection(filePath3);
+
+                Hw2.ParseData.FinalAnalysis[] finalAnalysis = analysisTest.AnalysisGroceryFood(groceryData, foodInspectionData, buildingData);                
+                
+                Assert.AreEqual(finalAnalysis[0].storeLicenceID, "980");
+
+
+            }
+            catch (FileNotFoundException ex)
+            {
+                Assert.Fail("File Not Available");
+                // Console.WriteLine("File Not available {0} ", ex.StackTrace);
+            }
+            catch (Exception e)
+            {
+                //Console.WriteLine("Problem in parsing data {0} ", e.StackTrace);
+                Assert.Fail("Analysis Failed");
+            }
+
+
+        }
+
+
     }
 }
