@@ -15,7 +15,8 @@
  * 
  * Maintenance History:
  * --------------------
- * 
+ * ver 2.2 : 17 Jun 2015
+ * Added Unit Test cases for testing methods.
  * 
  * ver 2.1 : 15 Jun 2015
  * -Added Display module with user interface
