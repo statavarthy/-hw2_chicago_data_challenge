@@ -72,7 +72,7 @@ namespace Hw2
             //{
 
 
-                var reader = new StreamReader(File.OpenRead(@filePath + "Grocery_Stores_2013.csv"));
+                var reader = new StreamReader(File.OpenRead(@filePath));
                 var line0 = reader.ReadLine();
                 // Populating groceryData
                 while (!reader.EndOfStream)
@@ -108,7 +108,7 @@ namespace Hw2
 
 
                 // STEP - 2 : Parse the Food Inspections data
-                var reader1 = new StreamReader(File.OpenRead(@filePath + "Food_Inspections_2013.csv"));
+                var reader1 = new StreamReader(File.OpenRead(@filePath));
                 var line0_new = reader1.ReadLine();
 
                 while (!reader1.EndOfStream)
@@ -156,7 +156,7 @@ namespace Hw2
 
 
                 // STEP - 3 : Parse the Building Violations data
-                var reader3 = new StreamReader(File.OpenRead(@filePath + "Building_Violations.csv"));
+                var reader3 = new StreamReader(File.OpenRead(@filePath));
 
                 var line_first = reader3.ReadLine();
                 // Populating Building Violations data           
