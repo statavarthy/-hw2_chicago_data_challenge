@@ -133,10 +133,31 @@ namespace Hw2
         }
 
       
-
-
+        
+        [Test]
         public void ParseBuildingInspectionTest()
         {
+
+            try
+            {
+                string filePath = @"C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\Hw2\Hw2_chicago_data_challenge\Hw2\Hw2\data\testData\Building_Violations.csv";
+                ParseData pd = new ParseData();
+                Hw2.ParseData.BuildingInspection[] buildingData  = pd.ParseBuildingInspection(filePath);
+                Assert.AreEqual(buildingData[0].buildingAddress, "8046 S THROOP ST");
+
+
+            }
+            catch (FileNotFoundException ex)
+            {
+                Assert.Fail("File Not Available");
+                // Console.WriteLine("File Not available {0} ", ex.StackTrace);
+            }
+            catch (Exception e)
+            {
+                //Console.WriteLine("Problem in parsing data {0} ", e.StackTrace);
+                Assert.Fail("Building Data could not be parsed, Problem in parsing");
+            }
+
 
         }
 
