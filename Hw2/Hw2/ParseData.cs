@@ -103,8 +103,8 @@ namespace Hw2
         {
             long j = 0;
             long num = 0;
-            try
-            {
+            //try
+            //{
 
 
                 // STEP - 2 : Parse the Food Inspections data
@@ -136,15 +136,15 @@ namespace Hw2
                     }
                 }
                 foodInspectionCnt = j;
-            }
-            catch (FileNotFoundException fnfe)
-            {
-                Console.WriteLine("\n Food Inspection File not Found {0}", fnfe.StackTrace);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("\n Exception while parsing the Food Inpsection file {0}", e.StackTrace);
-            }
+            //}
+            //catch (FileNotFoundException fnfe)
+            //{
+            //    Console.WriteLine("\n Food Inspection File not Found {0}", fnfe.StackTrace);
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("\n Exception while parsing the Food Inpsection file {0}", e.StackTrace);
+            //}
             return foodInspectionData;
         }
         public BuildingInspection[] ParseBuildingInspection(String filePath)
