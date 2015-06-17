@@ -12,6 +12,15 @@ namespace Hw2
     class ParseDataTest
     {
         [Test]
+        public void fileCheckTest()
+        {
+            string filepath_new= @"C:\Users\Smruti\Documents\SMRUTI\STUDIES\Loyola\Open Source Computing\Hw2\Hw2_chicago_data_challenge\Hw2\Hw2\data\testData\Grocery_Stores_FileChk.csv";
+            ParseData pd = new ParseData();
+            Hw2.ParseData.Grocery[] groceryData = pd.ParseGrocery(filepath_new);
+            Assert.IsNullOrEmpty(groceryData[0].licenseID, "File Not Empty");
+        }
+
+        [Test]
         public void ParseGroceryTest()
         {
             try
