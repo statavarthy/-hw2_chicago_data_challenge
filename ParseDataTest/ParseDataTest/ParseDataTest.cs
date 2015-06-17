@@ -32,8 +32,6 @@ namespace Hw2
                 Assert.Fail("Problem in parsing {0}", e.StackTrace);
             }
 
-
-
         }
 
         public void ParseFoodInspectionTest()
