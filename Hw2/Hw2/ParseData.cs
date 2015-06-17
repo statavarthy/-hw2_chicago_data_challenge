@@ -182,13 +182,12 @@ namespace Hw2
         
         }
 
-        public FinalAnalysis[] AnalysisGroceryFood(Grocery[] groceryData, FoodInspection[] foodInspectionData, BuildingInspection[] buildingInspectionData)
+        public FinalAnalysis[] AnalysisGroceryFood(Grocery[] groceryData, FoodInspection[] foodInspectionData, BuildingInspection[] buildingInspectionData, ref int n)
         {
-            int n = 0;
+            
             int c = 0;
             long m = 0;
-            DateTime maxDate = DateTime.MinValue;
-            Console.WriteLine("ggggjkkkk {0}", groceryData[0].licenseID);
+            DateTime maxDate = DateTime.MinValue;            
             // Analysis between Grocery Stores and Food Inspection
             for (long k = 0; k < groceryStoreCnt; k++)
             {
@@ -297,7 +296,7 @@ namespace Hw2
             return finalAnalysis;
            
         }
-        public void displayData(FinalAnalysis[] finalAnalysis)
+        public void displayData(FinalAnalysis[] finalAnalysis,ref int n)
         {
             int i = 0;
             //Display records for the user by giving options about the different analysis
@@ -325,7 +324,7 @@ namespace Hw2
                     Console.WriteLine("Grocery Stores that have failed Food Inspection :");
                     Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
                     Console.WriteLine("{0,-15}  {1,-40}  {2,20}  ", "License ID", "Store Name", "Inspection Status");
-                    for (i = 0; i < finalAnalysis.Length; i++)
+                    for (i = 0; i < n; i++)
                     {
                         if (string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "FAIL") == 0)
                             Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} ", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus));
@@ -339,7 +338,7 @@ namespace Hw2
                     Console.WriteLine("Grocery Stores that have not undergone Food Inspection :");
                     Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
                     Console.WriteLine("{0,-15}  {1,-40}  {2,20}  ", "License ID", "Store Name", "Inspection Status");
-                    for (i = 0; i < finalAnalysis.Length; i++)
+                    for (i = 0; i < n; i++)
                     {
                         if (string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "NOT INSPECTED") == 0)
                             Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} ", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus));
@@ -353,7 +352,7 @@ namespace Hw2
                     Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations :");
                     Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
                     Console.WriteLine("{0,-15}  {1,-40}  {2,20} {3,40} ", "License ID", "Store Name", "Inspection Status", " Building Violation");
-                    for (i = 0; i < finalAnalysis.Length; i++)
+                    for (i = 0; i < n; i++)
                     {
                         if ((string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "FAIL") == 0) && (string.Compare(finalAnalysis[i].violation.ToUpper(), "NO BUILDING VIOLATION") != 0))
                             Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20}  {3,40}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].violation));
@@ -366,7 +365,7 @@ namespace Hw2
                     Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations :");
                     Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
                     Console.WriteLine("{0,-15}  {1,-40}  {2,20}  {3,40}", "License ID", "Store Name", "Inspection Status", " Building Violation");
-                    for (i = 0; i < finalAnalysis.Length; i++)
+                    for (i = 0; i < n; i++)
                     {
                         if ((string.Compare(finalAnalysis[i].storeInspectionStatus.ToUpper(), "NOT INSPECTED") == 0) && (string.Compare(finalAnalysis[i].violation.ToUpper(), "NO BUILDING VIOLATION") == 1))
                             Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20}  {3,40}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].violation));

@@ -73,16 +73,16 @@ namespace Hw2
         
         static void Main(string[] args)
         {
-            string filePath = "..\\..\\data\\" + "actualData" + "\\";
-            
+            string filePath = "..\\..\\data\\" + "testData" + "\\";
+            int size = 0;
 
             
             ParseData pd = new ParseData();
-            Hw2.ParseData.Grocery[] groceryData = pd.ParseGrocery(filePath+"Grocery_Stores_2013.csv");
-            Hw2.ParseData.FoodInspection[] foodInspectionData = pd.ParseFoodInspection(filePath+"Food_Inspections_2013.csv");
-            Hw2.ParseData.BuildingInspection[] buildingInspectionData = pd.ParseBuildingInspection(filePath + "Building_Violations.csv");
-            Hw2.ParseData.FinalAnalysis[] finalAnalysis=pd.AnalysisGroceryFood(groceryData, foodInspectionData, buildingInspectionData);
-            pd.displayData(finalAnalysis);
+            Hw2.ParseData.Grocery[] groceryData = pd.ParseGrocery(filePath+"Grocery_Stores_Analysis_case2.csv");
+            Hw2.ParseData.FoodInspection[] foodInspectionData = pd.ParseFoodInspection(filePath+"Food_Inspections_Analysis_case2.csv");
+            Hw2.ParseData.BuildingInspection[] buildingInspectionData = pd.ParseBuildingInspection(filePath + "Building_Violations_Analysis_case2.csv");
+            Hw2.ParseData.FinalAnalysis[] finalAnalysis=pd.AnalysisGroceryFood(groceryData, foodInspectionData, buildingInspectionData,ref size);
+            pd.displayData(finalAnalysis, ref size);
             
         }
     }
