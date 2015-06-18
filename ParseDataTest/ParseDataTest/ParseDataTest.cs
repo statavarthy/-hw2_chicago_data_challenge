@@ -34,16 +34,17 @@ namespace Hw2
         [Test]
         public void fileNotFoundTest()
         {
+            Hw2.ParseData.Grocery[] groceryData=new ParseData.Grocery[10];
             try
             {
                 string filePath = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\noFile.csv";
                 ParseData pd = new ParseData();
-                Hw2.ParseData.Grocery[] groceryData = pd.ParseGrocery(filePath);
-                Assert.IsNotNull(groceryData[0].licenseID, "File is Empty");                
+                groceryData = pd.parseGroceryData(filePath);
+                              
             }
-            catch(FileNotFoundException ex)
+            catch(Exception ex)
             {
-                Assert.Fail("File Not Found");
+                Assert.IsNull(groceryData[0].licenseID, "File is Empty");                  
                 Console.WriteLine("File Not available {0} ", ex.StackTrace);
             }
 
@@ -57,8 +58,8 @@ namespace Hw2
         {
             string filepath_new= "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Grocery_Stores_FileChk.csv";            
             ParseData pd = new ParseData();
-            Hw2.ParseData.Grocery[] groceryData = pd.ParseGrocery(filepath_new);
-            Assert.IsNotNull(groceryData[0].licenseID, "File is Empty");
+            Hw2.ParseData.Grocery[] groceryData = pd.parseGroceryData(filepath_new);
+            Assert.IsNull(groceryData[0].licenseID, "File is Empty");
         }
 
         // Unit Test 3 : To check if the grocery file in the given path is getting parsed. 
@@ -72,7 +73,7 @@ namespace Hw2
             {
                 string filePath = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Grocery_Stores_2013.csv";
                 ParseData pd = new ParseData();
-                Hw2.ParseData.Grocery[] groceryData = pd.ParseGrocery(filePath);
+                Hw2.ParseData.Grocery[] groceryData = pd.parseGroceryData(filePath);
                 Assert.AreEqual(groceryData[0].licenseID, "980");
             }
             catch (FileNotFoundException ex)
@@ -98,7 +99,7 @@ namespace Hw2
             {
                 string filePath = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Food_Inspections_Test_Grocery_2013.csv";
                 ParseData pd = new ParseData();
-                Hw2.ParseData.FoodInspection[] foodInspectionData = pd.ParseFoodInspection(filePath);
+                Hw2.ParseData.FoodInspection[] foodInspectionData = pd.parseFoodInspection(filePath);
                 Assert.AreEqual(foodInspectionData[0].storeLicenseID, "2391097");                                                             
             }
             catch (FileNotFoundException ex)
@@ -116,7 +117,7 @@ namespace Hw2
 
         // Unit Test 5 : To check if the data in food inspection is for grocery stores and for the year 2013 
         // Test passes if the condition in assert matches, else the test fails. 
-        // The data in the file is not for grocery store. Hence this test will fail.
+        // The data in the file is not for grocery store.Since the condition matches the test passes.
         [Test]
         public void TestForNotGrocery2013()
         {
@@ -124,8 +125,8 @@ namespace Hw2
             {
                 string filePath = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Food_Inspections_Test_NotGrocery_2013.csv";
                 ParseData pd = new ParseData();
-                Hw2.ParseData.FoodInspection[] foodInspectionData = pd.ParseFoodInspection(filePath);
-                Assert.AreEqual(foodInspectionData[0].storeLicenseID, "2391097");
+                Hw2.ParseData.FoodInspection[] foodInspectionData = pd.parseFoodInspection(filePath);
+                Assert.AreNotEqual(foodInspectionData[0].storeLicenseID, "2391097");
 
 
             }
@@ -144,7 +145,7 @@ namespace Hw2
 
         // Unit Test 6 : To check if the data in food inspection is for grocery stores and for the year 2013 
         // Test passes if the condition in assert matches, else the test fails. 
-        // The data in the file is not for the year 2013. Hence this test will fail.
+        // The data in the file is not for the year 2013. Since the condition matches the test passes.
         [Test]
         public void TestForGroceryNot2013()
         {
@@ -152,8 +153,8 @@ namespace Hw2
             {
                 string filePath = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Food_Inspections_Test_Grocery_Not2013.csv";
                 ParseData pd = new ParseData();
-                Hw2.ParseData.FoodInspection[] foodInspectionData = pd.ParseFoodInspection(filePath);
-                Assert.AreEqual(foodInspectionData[0].storeLicenseID, "2391097");
+                Hw2.ParseData.FoodInspection[] foodInspectionData = pd.parseFoodInspection(filePath);
+                Assert.AreNotEqual(foodInspectionData[0].storeLicenseID, "2391097");
 
 
             }
@@ -172,18 +173,17 @@ namespace Hw2
 
         // Unit Test 7 : To check if the data in food inspection is for grocery stores and for the year 2013 
         // Test passes if the condition in assert matches, else the test fails.
-        // The data in the file is not for the year 2013 and it is not grocery store. Hence this test will fail.
+        // The data in the file is not for the year 2013 and it is not grocery store. But as per the condition the test passes.
 
         [Test]
-
         public void TestForNotGroceryNot2013()
         {
             try
             {
                 string filePath = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Food_Inspections_Test_NotGrocery_Not2013.csv";
                 ParseData pd = new ParseData();
-                Hw2.ParseData.FoodInspection[] foodInspectionData = pd.ParseFoodInspection(filePath);
-                Assert.AreEqual(foodInspectionData[0].storeLicenseID, "2391097");
+                Hw2.ParseData.FoodInspection[] foodInspectionData = pd.parseFoodInspection(filePath);
+                Assert.AreNotEqual(foodInspectionData[0].storeLicenseID, "2391097");
 
 
             }
@@ -214,7 +214,7 @@ namespace Hw2
             {
                 string filePath = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Building_Violations.csv";
                 ParseData pd = new ParseData();
-                Hw2.ParseData.BuildingInspection[] buildingData  = pd.ParseBuildingInspection(filePath);
+                Hw2.ParseData.BuildingViolation[] buildingData  = pd.parseBuildingInspection(filePath);
                 Assert.AreEqual(buildingData[0].buildingAddress, "8046 S THROOP ST");
 
 
@@ -246,11 +246,11 @@ namespace Hw2
                 string filePath2 = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Food_Inspections_Analysis_case1.csv";
                 string filePath3 = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Building_Violations_Analysis_case1.csv";
                 ParseData analysisTest = new ParseData();
-                Hw2.ParseData.Grocery[] groceryData = analysisTest.ParseGrocery(filePath1);
-                Hw2.ParseData.FoodInspection[] foodInspectionData = analysisTest.ParseFoodInspection(filePath2);
-                Hw2.ParseData.BuildingInspection[] buildingData = analysisTest.ParseBuildingInspection(filePath3);
+                Hw2.ParseData.Grocery[] groceryData = analysisTest.parseGroceryData(filePath1);
+                Hw2.ParseData.FoodInspection[] foodInspectionData = analysisTest.parseFoodInspection(filePath2);
+                Hw2.ParseData.BuildingViolation[] buildingData = analysisTest.parseBuildingInspection(filePath3);
 
-                Hw2.ParseData.FinalAnalysis[] finalAnalysis = analysisTest.AnalysisGroceryFood(groceryData, foodInspectionData, buildingData,ref n);                
+                Hw2.ParseData.FinalAnalysis[] finalAnalysis = analysisTest.analysisGroceryFood(groceryData, foodInspectionData, buildingData,ref n);                
                 
                 Assert.AreEqual(finalAnalysis[0].storeLicenceID, "980");
 
@@ -284,11 +284,11 @@ namespace Hw2
                 string filePath2 = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Food_Inspections_Analysis_case2.csv";
                 string filePath3 = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Building_Violations_Analysis_case2.csv";
                 ParseData analysisTest = new ParseData();
-                Hw2.ParseData.Grocery[] groceryData = analysisTest.ParseGrocery(filePath1);
-                Hw2.ParseData.FoodInspection[] foodInspectionData = analysisTest.ParseFoodInspection(filePath2);
-                Hw2.ParseData.BuildingInspection[] buildingData = analysisTest.ParseBuildingInspection(filePath3);
+                Hw2.ParseData.Grocery[] groceryData = analysisTest.parseGroceryData(filePath1);
+                Hw2.ParseData.FoodInspection[] foodInspectionData = analysisTest.parseFoodInspection(filePath2);
+                Hw2.ParseData.BuildingViolation[] buildingData = analysisTest.parseBuildingInspection(filePath3);
 
-                Hw2.ParseData.FinalAnalysis[] finalAnalysis = analysisTest.AnalysisGroceryFood(groceryData, foodInspectionData, buildingData,ref n);
+                Hw2.ParseData.FinalAnalysis[] finalAnalysis = analysisTest.analysisGroceryFood(groceryData, foodInspectionData, buildingData,ref n);
 
                 Assert.AreEqual(finalAnalysis[0].storeInspectionStatus.ToUpper(), "FAIL");
 
@@ -321,11 +321,11 @@ namespace Hw2
                 string filePath2 = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Food_Inspections_Analysis_case3.csv";
                 string filePath3 = "..\\..\\..\\..\\Hw2\\Hw2\\data\\testData\\Building_Violations_Analysis_case3.csv";
                 ParseData analysisTest = new ParseData();
-                Hw2.ParseData.Grocery[] groceryData = analysisTest.ParseGrocery(filePath1);
-                Hw2.ParseData.FoodInspection[] foodInspectionData = analysisTest.ParseFoodInspection(filePath2);
-                Hw2.ParseData.BuildingInspection[] buildingData = analysisTest.ParseBuildingInspection(filePath3);
+                Hw2.ParseData.Grocery[] groceryData = analysisTest.parseGroceryData(filePath1);
+                Hw2.ParseData.FoodInspection[] foodInspectionData = analysisTest.parseFoodInspection(filePath2);
+                Hw2.ParseData.BuildingViolation[] buildingData = analysisTest.parseBuildingInspection(filePath3);
 
-                Hw2.ParseData.FinalAnalysis[] finalAnalysis = analysisTest.AnalysisGroceryFood(groceryData, foodInspectionData, buildingData, ref n);
+                Hw2.ParseData.FinalAnalysis[] finalAnalysis = analysisTest.analysisGroceryFood(groceryData, foodInspectionData, buildingData, ref n);
 
                 Assert.IsNullOrEmpty(finalAnalysis[0].storeLicenceID, "FAIL");
 

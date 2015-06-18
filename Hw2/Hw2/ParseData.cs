@@ -33,9 +33,9 @@ namespace Hw2
             public string groceryAddress;
         };
 
-        public struct BuildingInspection
+        public struct BuildingViolation
         {
-            public string buildingInspectionStatus;
+            public string buildingViolationStatus;
             public string buildingAddress;
             public string violation;
         };
@@ -66,16 +66,15 @@ namespace Hw2
         Grocery[] groceryData = new Grocery[6000];
         FoodInspection[] foodInspectionData = new FoodInspection[40000];
         FinalAnalysis[] finalAnalysis = new FinalAnalysis[20000];
-        BuildingInspection[] buildingData = new BuildingInspection[200000];
+        BuildingViolation[] buildingData = new BuildingViolation[200000];
         TempRecordMatch[] record_match = new TempRecordMatch[1000];
 
         int groceryStoreCnt = 0;
         long foodInspectionCnt = 0;
         long bldg_num = 0;
         
-        /**
-         */
-        public Grocery[] ParseGrocery(String filePath)
+        //Method for parsing the Grocery Stores File         
+        public Grocery[] parseGroceryData(String filePath)
         {
             int i = 0;    
             // STEP - 1 : Parse the "Grocery Stores" data            
@@ -97,26 +96,15 @@ namespace Hw2
                 }
 
                 groceryStoreCnt = i;
-            //}                
-            //catch (FileNotFoundException fnfe)
-            //{
-            //    Console.WriteLine("\n Grocery File not Found {0}", fnfe.StackTrace);
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine("\n Exception while parsing the grocery file {0}", e.StackTrace);
-            //}
-
             return groceryData;
         }
 
-        public FoodInspection[] ParseFoodInspection(String filePath)
+        //Method for parsing the Food Inspections File         
+
+        public FoodInspection[] parseFoodInspection(String filePath)
         {
             long j = 0;
             long num = 0;
-            //try
-            //{
-
 
                 // STEP - 2 : Parse the Food Inspections data
                 var reader1 = new StreamReader(File.OpenRead(@filePath));
@@ -147,21 +135,14 @@ namespace Hw2
                     }
                 }
                 foodInspectionCnt = j;
-            //}
-            //catch (FileNotFoundException fnfe)
-            //{
-            //    Console.WriteLine("\n Food Inspection File not Found {0}", fnfe.StackTrace);
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine("\n Exception while parsing the Food Inpsection file {0}", e.StackTrace);
-            //}
+
             return foodInspectionData;
         }
-        public BuildingInspection[] ParseBuildingInspection(String filePath)
+
+        //Method for parsing the Building Violations File         
+        public BuildingViolation[] parseBuildingInspection(String filePath)
         {
-            long x = 0;            
-            long num1 = 0;
+            long x = 0;                        
             try
             {
 
@@ -193,7 +174,8 @@ namespace Hw2
         
         }
 
-        public FinalAnalysis[] AnalysisGroceryFood(Grocery[] groceryData, FoodInspection[] foodInspectionData, BuildingInspection[] buildingInspectionData, ref int n)
+        //Method for Analyzing the Grocery Stores. Food Inspection and Building Violations File        
+        public FinalAnalysis[] analysisGroceryFood(Grocery[] groceryData, FoodInspection[] foodInspectionData, BuildingViolation[] buildingInspectionData, ref int n)
         {
             
             int c = 0;
@@ -307,7 +289,7 @@ namespace Hw2
             return finalAnalysis;
            
         }
-        public void displayData(FinalAnalysis[] finalAnalysis,ref int n)
+        public void displayData(FinalAnalysis[] finalAnalysis, ref int n)
         {
             int i = 0;
             //Display records for the user by giving options about the different analysis
@@ -320,19 +302,26 @@ namespace Hw2
             Console.WriteLine("It will display the grocery stores that have failed food inspections,have building violations, and that have not been inspected for food.");
             Console.WriteLine("This database has been compiled considering the records of 2013 and shows only the FAILED records");
 
-            while (string.Compare(answer.ToUpper(), "Y") == 0)
+            do
             {
                 Console.WriteLine("\n\n******************************************MENU*********************************************************");
-                Console.WriteLine("\n 1. Grocery Stores that have failed the Inpsection");
-                Console.WriteLine("\n 2. Grocery Stores that have not undergone the Inpsection");
+                Console.WriteLine("\n 1. Grocery Stores that have failed the Inspection");
+                Console.WriteLine("\n 2. Grocery Stores that have not undergone the Inspection");
                 Console.WriteLine("\n 3. Grocery Stores with failed Food Inspection and Building Violations");
                 Console.WriteLine("\n 4. Grocery Stores that have not undergone the Inpsection and have Building violations");
-                Console.Write("\n Enter your choice :");
+                Console.Write("\n Enter your choice : ");
                 choice = Console.ReadLine();
+
+                while(choice!="1"&&choice!="2"&&choice!="3"&&choice!="4")
+                {
+                    Console.WriteLine("\n Invalid Input Entered!!!!");
+                    Console.Write(" Please reenter your choice (1-4):");
+                    choice = Console.ReadLine();
+                } 
 
                 if (choice == "1")
                 {
-                    Console.WriteLine("Grocery Stores that have failed Food Inspection :");
+                    Console.WriteLine("Grocery Stores that have failed Food Inspection : ");
                     Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
                     Console.WriteLine("{0,-15}  {1,-40}  {2,20}  ", "License ID", "Store Name", "Inspection Status");
                     for (i = 0; i < n; i++)
@@ -346,7 +335,7 @@ namespace Hw2
 
                 if (choice == "2")
                 {
-                    Console.WriteLine("Grocery Stores that have not undergone Food Inspection :");
+                    Console.WriteLine("Grocery Stores that have not undergone Food Inspection : ");
                     Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
                     Console.WriteLine("{0,-15}  {1,-40}  {2,20}  ", "License ID", "Store Name", "Inspection Status");
                     for (i = 0; i < n; i++)
@@ -360,7 +349,7 @@ namespace Hw2
 
                 if (choice == "3")
                 {
-                    Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations :");
+                    Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations : ");
                     Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
                     Console.WriteLine("{0,-15}  {1,-40}  {2,20} {3,40} ", "License ID", "Store Name", "Inspection Status", " Building Violation");
                     for (i = 0; i < n; i++)
@@ -373,7 +362,7 @@ namespace Hw2
 
                 if (choice == "4")
                 {
-                    Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations :");
+                    Console.WriteLine("Grocery Stores that have failed Food Inspection and have building violations : ");
                     Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");
                     Console.WriteLine("{0,-15}  {1,-40}  {2,20}  {3,40}", "License ID", "Store Name", "Inspection Status", " Building Violation");
                     for (i = 0; i < n; i++)
@@ -382,27 +371,20 @@ namespace Hw2
                             Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20}  {3,40}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].violation));
                     }
 
-                }
-
-                Console.Write("\n Do you wish to continue ? (Y/N) :");
+                }                    
+                Console.Write("\n Do you wish to continue ? (Y/N) : ");
                 answer = Console.ReadLine();
-            }
+                while(string.Compare(answer.ToUpper(), "N")!=0 &&string.Compare(answer.ToUpper(), "Y")!=0)
+                {
+                    Console.WriteLine("\n Invalid Input Entered!!!!");
+                    Console.Write(" Please reenter your choice , Do you wish to continue (Y/N) : ");
+                    answer = Console.ReadLine();
+                } 
+                
+            }while ((string.Compare(answer.ToUpper(), "Y") == 0));
 
-
-            //printing the final result of correlation
-            //Console.WriteLine("Final analysis data :");
-            //Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");            
-            //Console.WriteLine("{0,-15}  {1,-40}  {2,20} {3,40} ", "License ID", "Store Name",  "Inspection Status","Violation");
-            //Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------");            
-
-
-            //for (i = 0; i < n; i++)
-            //{
-            //    Console.WriteLine(string.Format("{0,-15}  {1,-40}  {2,20} {3,40}", finalAnalysis[i].storeLicenceID, finalAnalysis[i].storeName, finalAnalysis[i].storeInspectionStatus, finalAnalysis[i].violation));
-
-            //}
-
+                           
+          
         }
-
     }
 }
