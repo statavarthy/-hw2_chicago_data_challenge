@@ -1,4 +1,21 @@
-﻿using System;
+﻿////////////////////////////////////////////////////////////////////////
+// ParseData.cs - Program for defining methods to parse different data//
+//                and analyze them                                    //
+// Language:    C#, .Net Framework 4.0                                //
+// Application: Open Source Computing, HW#2, Summer 2015              //
+// Author:      SMRUTI TATAVARTHY, COMP 412, Loyola University        //
+//              statavarthy@luc.edu                                   //
+////////////////////////////////////////////////////////////////////////
+/*Summary
+ * This program contain methods for parsing data.
+ * The different methods help in populating the gorcery, food Inspection
+ * and Building violations data.
+ * The Analysis method helps in identifying the correlation between the grocery
+ * and food inspection data alongwith bulding violation.
+ * 
+ 
+*/
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -45,13 +62,7 @@ namespace Hw2
             public string licenseID;
             public DateTime date;
         }
-        
-         
-        // boolean to identify the data folder whether test or actual
-        // testMode = true --> take the data from testData folder
-        // testMode = false --> take the data from actualData folder
-        //bool testMode = true;          
-        // specify the folder from which data is to be taken           
+            
         Grocery[] groceryData = new Grocery[6000];
         FoodInspection[] foodInspectionData = new FoodInspection[40000];
         FinalAnalysis[] finalAnalysis = new FinalAnalysis[20000];

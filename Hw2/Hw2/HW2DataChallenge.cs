@@ -76,12 +76,14 @@ namespace Hw2
         {
             string filePath = "..\\..\\data\\" + "actualData" + "\\";
             int size = 0;
-
+            string groceryFilePath=filePath+ "Grocery_Stores_2013.csv";
+            string foodInspFilePath = filePath + "Food_Inspections_2013.csv";
+            string buildingViolationPath = filePath + "Building_Violations.csv";
             
             ParseData pd = new ParseData();
-            Hw2.ParseData.Grocery[] groceryData = pd.ParseGrocery(filePath+"Grocery_Stores_2013.csv");
-            Hw2.ParseData.FoodInspection[] foodInspectionData = pd.ParseFoodInspection(filePath+"Food_Inspections_2013.csv");
-            Hw2.ParseData.BuildingInspection[] buildingInspectionData = pd.ParseBuildingInspection(filePath + "Building_Violations.csv");
+            Hw2.ParseData.Grocery[] groceryData = pd.ParseGrocery(groceryFilePath);
+            Hw2.ParseData.FoodInspection[] foodInspectionData = pd.ParseFoodInspection(foodInspFilePath);
+            Hw2.ParseData.BuildingInspection[] buildingInspectionData = pd.ParseBuildingInspection(buildingViolationPath);
             Hw2.ParseData.FinalAnalysis[] finalAnalysis=pd.AnalysisGroceryFood(groceryData, foodInspectionData, buildingInspectionData,ref size);
             pd.displayData(finalAnalysis, ref size);
             
